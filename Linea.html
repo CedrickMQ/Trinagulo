@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graficacion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body onload="start();">
+    <section class="flex text-[#EEEEEE]">
+        <div class="min-w-80 max-w-[30%] h-screen bg-[#31363F]">
+            <h1>Primera cordenada</h1>
+            <div class="flex gap-5">
+                <input class="w-20 h-10 bg-[#76ABAE] text-[#222831]" type="number" name="" id="inputX1" oninput="updateX1();">
+                <input class="w-20 h-10 bg-[#76ABAE] text-[#222831]" type="number" name="" id="inputY1" oninput="updateY1();">
+            </div>
+            <h1>Segunda cordenada</h1>
+            <div class="flex gap-5">
+                <input class="w-20 h-10 bg-[#76ABAE] text-[#222831]" type="number" name="" id="inputX2" oninput="updateX2();">
+                <input class="w-20 h-10 bg-[#76ABAE] text-[#222831]" type="number" name="" id="inputY2" oninput="updateY2();" >
+            </div>
+            <button type="button" id="boton"  class="py-1 px-6 bg-[#EEEEEE] text-[#222831] hover:bg-[#76ABAE] hover:text-[#EEEEEE]" onclick="start()">
+                dibuja
+            </button>
+
+            <table id="tabla-vertices">
+                <thead>
+                    <tr>
+                        <th>X</th>
+                        <th>Y</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se llenará la tabla con los datos -->
+                </tbody>
+            </table>
+
+        </div>
+        <div class="h-full">
+            <canvas width="700" height="700" id="webgl-canvas"></canvas>
+        </div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    <script>
+        let x1, y1, x2, y2,Chec_x1,Chec_y1; 
+
+        function updateX1() {
+            // Obtener el valor del inputX1
+            const inputX1 = document.getElementById('inputX1');
+            // Asignar el valor del input a x1
+            x1 = parseFloat(inputX1.value);
+            Chec_x1 = x1;
+        }
+        function updateY1() {
+            // Obtener el valor del inputX1
+            const inputY1 = document.getElementById('inputY1');
+            // Asignar el valor del input a x1
+            y1 = parseFloat(inputY1.value);
+            Chec_y1 = y1;
+        }
+        function updateX2() {
+            // Obtener el valor del inputX1
+            const inputX2 = document.getElementById('inputX2');
+            // Asignar el valor del input a x1
+            x2 = parseFloat(inputX2.value);
+            // start();
+        }
+        function updateY2() {
+            // Obtener el valor del inputX1
+            const inputY2 = document.getElementById('inputY2');
+            // Asignar el valor del input a x1
+            y2 = parseFloat(inputY2.value);
+            // start();
+        }
+        // Espera a que el DOM esté completamente cargado
+        // document.addEventListener('DOMContentLoaded',
+         function start() {
+            // Obtener el contexto WebGL del lienzo
+            const canvas = document.getElementById('webgl-canvas');
+            const gl = canvas.getContext('webgl', {antialias:true} );
+            const canvasWidth = canvas.clientWidth;
+            const canvasHeight = canvas.clientHeight;
+            const aspectRat = canvasWidth / canvasHeight;
+
+            gl.viewport(0, 0, canvasWidth, canvasHeight);
+
+            const projectionMatrix = mat4.create();
+            mat4.ortho(projectionMatrix, 0, 100, 0, 100, -1, 1);
+
+            x1 = Chec_x1;
+            y1 = Chec_y1;
+
+            let Bool_x = false;
+            let Bool_y = false;
+
+
+            if(x1 < x2 ){
+                Bool_x = true;
+            }
+            if(y1 < y2 ){
+                Bool_y = true;
+            }
+
+            console.log('x1 es el mayor? ', Bool_x, ', y1 es el mayor?',Bool_y);
+
+            let dis = 0.1;
+
+            let M = (y2 - y1)/(x2 - x1);
+
+            let DX = (x2 - x1);
+            let DY = (y2 - y1);
+            console.log('DX : ',DX);
+            console.log('DY : ',DY);
+
+            DX = Math.abs(DX);
+            DY = Math.abs(DY);
+
+            let Pasos = DX > DY ? DX : DY; 
+            console.log('pasos : ',Pasos)
+            
+            let IN_X = DX / Pasos;
+            let IN_Y = DY / Pasos;
+
+            if (x1 > x2){
+                IN_X = -IN_X;
+            }
+            if (y1 > y2){
+                IN_Y = -IN_Y;
+            }
+            console.log('IN_X : ',IN_X);
+            console.log('IN_Y : ',IN_Y);
+
+            // Definir los vértices de la línea
+            const vertices = [];
+            vertices.push(x1,y1)
+
+            const T_Datos = [];
+
+            if ((Bool_x == true)&&(Bool_y == true)){
+                for (;(x1 <= x2) && (y1 <= y2);){
+                    vertices.push(x1,y1);
+                    x1 += IN_X * dis;
+                    y1 += IN_Y * dis;
+                    console.log(x1, y1);
+                    if ((x1 > 200) || (y1 > 200)){
+                        break;
+                    }
+                }
+            } if ((Bool_x == false)&&(Bool_y == false)){
+                for (;(x1 >= x2) && (y1 >= y2);){
+                    vertices.push(x1,y1);
+                    x1 += IN_X * dis;
+                    y1 += IN_Y * dis;
+                    console.log(x1, y1);
+                    if ((x1 > 200) || (y1 > 200)){
+                        break;
+                    }
+                }
+            } if ((Bool_x == true)&&(Bool_y == false)){
+                for (;(x1 <= x2) && (y1 >= y2);){
+                    vertices.push(x1,y1);
+                    x1 += IN_X * dis;
+                    y1 += IN_Y * dis;
+                    console.log(x1, y1);
+                    if ((x1 > 200) || (y1 > 200)){
+                        break;
+                    }
+                }
+            } if ((Bool_x == false)&&(Bool_y == true)){
+                for (;(x1 >= x2) && (y1 <= y2);){
+                    vertices.push(x1,y1);
+                    x1 += IN_X * dis;
+                    y1 += IN_Y * dis;
+                    console.log(x1, y1);
+                    if ((x1 > 200) || (y1 > 200)){
+                        break;
+                    }
+                }
+            } 
+
+            vertices.push(x2,y2);
+
+            const tabla = document.getElementById('tabla-vertices').getElementsByTagName('tbody')[0];
+
+            // console.log(vertices.length);
+            // console.log(vertices);
+
+            if (vertices.length > 4){
+                // console.log('puto jajaj')
+                for (let i = 0; i < vertices.length; i += 2) {
+            // Crear una nueva fila en la tabla
+            const fila = tabla.insertRow();
+
+            // Insertar la coordenada X en la primera celda de la fila
+            const celdaX = fila.insertCell(0);
+            celdaX.textContent = '' + vertices[i];
+ // Crear una nueva fila para la coordenada Y
+            const celdaY = fila.insertCell(1);
+            celdaY.textContent = '' + vertices[i + 1];
+        }
+            }
+            // Iterar sobre los vértices y agregarlos a la tabla
+            
+
+            if (!gl) {
+                console.error('Tu navegador no soporta WebGL');
+                return;
+            } 
+
+            // Crear un buffer para los vértices
+            const vertexBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+            // Crear el programa de shaders
+            const vertexShaderSource = `
+                attribute vec2 position;
+                uniform mat4 u_projectionMatrix;
+                void main() {
+                    gl_Position = u_projectionMatrix * vec4(position, 0.0, 1.0);
+                    gl_PointSize = 0.1; // Tamaño de los puntos
+                }
+            `;
+
+            const fragmentShaderSource = `
+                precision mediump float;
+                void main() {
+                    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+                }
+            `;
+
+            // Crear los shaders
+            const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+            gl.shaderSource(vertexShader, vertexShaderSource);
+            gl.compileShader(vertexShader);
+
+            const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+            gl.shaderSource(fragmentShader, fragmentShaderSource);
+            gl.compileShader(fragmentShader);
+
+            // Crear el programa
+            const shaderProgram = gl.createProgram();
+            gl.attachShader(shaderProgram, vertexShader);
+            gl.attachShader(shaderProgram, fragmentShader);
+            gl.linkProgram(shaderProgram);
+            gl.useProgram(shaderProgram);
+
+            // Pasar la matriz de proyección al shader
+            const projectionMatrixLocation = gl.getUniformLocation(shaderProgram, 'u_projectionMatrix');
+            gl.uniformMatrix4fv(projectionMatrixLocation, false, projectionMatrix
+            // new Float32Array(shaderProgram)
+            );
+
+            // Vincular el buffer al atributo de posición del shader
+            const positionAttributeLocation = gl.getAttribLocation(shaderProgram, 'position');
+            gl.enableVertexAttribArray(positionAttributeLocation);
+            gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+
+            // Limpiar el lienzo y dibujar la línea 
+            gl.clearColor(0.0, 0.0, 0.0, 1.0); // Color de fondo negro
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.POINTS, 0, vertices.length / 2); // Dibujar puntos
+        } 
+    </script>
+</body>
+</html>
