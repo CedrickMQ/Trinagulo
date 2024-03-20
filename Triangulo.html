@@ -32,7 +32,7 @@
                 <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="y3" type="number" name="" id="inputY3" oninput="updateY3();" >
             </div>
             <div class="flex gap-5">
-                <button type="button" id="boton" class="w-full py-1 my-5 bg-[#EEEEEE] text-[#222831] rounded-md font-medium hover:bg-[#76ABAE] hover:text-[#EEEEEE]" onclick="start()">
+                <button type="button" id="boton" class="w-full py-1 my-5 bg-[#EEEEEE] text-[#222831] rounded-md font-medium hover:bg-[#76ABAE] hover:text-[#EEEEEE]" onclick="doTriangle()">
                     Dibuja
                 </button>
                 <button type="button" id="boton" class="w-full py-1 my-5 bg-[#EEEEEE] text-[#222831] rounded-md font-medium hover:bg-[#76ABAE] hover:text-[#EEEEEE]" onclick="limpiar()">
@@ -480,6 +480,18 @@
             gl.clear(gl.COLOR_BUFFER_BIT);
         }
 
+        function doTriangle (){
+            var section = document.getElementById('loading');
+            section.style = 'display: in-line;';
+            setTimeout(function() {
+                start();
+                if (load == true) {
+                    section.style = 'display: none;';
+                    load = false;
+                }
+            }, 2000);
+        }
+
         function start() {
             const canvas = document.getElementById('webgl-canvas');
             const gl = canvas.getContext('webgl', {antialias:true} );
@@ -500,13 +512,7 @@
             const Texto2 =  document.getElementById('text2');
             const num2 =    document.getElementById('num2');
             const Texto3 =  document.getElementById('text3');
-            const num3 =    document.getElementById('num3');
-
-            var section = document.getElementById('loading');
-
-            // tabla1.innerHTML = '';
-            // tabla2.innerHTML = '';
-            // tabla3.innerHTML = '';
+            const num3 =    document.getElementById('num3'); 
 
             if (isFirstRun == true) { 
                 tabla1.innerHTML = '';
@@ -514,16 +520,13 @@
                 tabla3.innerHTML = ''; 
             }
 
-            load = true;
             x1 = Chec_x1;
             y1 = Chec_y1;
 
             //  inicio 
             let dis = 0.1;
             const vertices = [];
-            const lateral = [];
-
-            section.style.display = 'contents';
+            const lateral = [];            
 
             if (x1 != null){
                 Lineas(vertices,x1,y1,x2,y2,dis,tabla1,lateral,Texto1,num1);
@@ -600,9 +603,8 @@
             gl.clearColor(0.0, 0.0, 0.0, 0.0); // Color de fondo negro
             gl.clear(gl.COLOR_BUFFER_BIT);
             gl.drawArrays(gl.POINTS, 0, vertices.length / 2); // Dibujar puntos 
-            gl.deleteBuffer(vertexBuffer); 
-
-            section.style.display = 'none';
+            gl.deleteBuffer(vertexBuffer);
+            load = true;
         } 
     </script>
 
@@ -620,7 +622,8 @@
 
             var section = document.getElementById('loading');
 
-            section.style.display = 'none'; 
+            section.style.display = 'none';
+            // 'none'; 
 
             const vertices = [ 
                 0,100,
