@@ -6,10 +6,15 @@
     <title>Graficacion</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body onload="Regla();
-">
-    <section class="flex text-[#EEEEEE] bg-[#222831]">
-        <div class="min-w-[250px] max-w-[30%] px-5 h-screen bg-[#31363F]">            
+<body onload="Regla();">
+    <Section id="loading" class="absolute h-[100vh] w-[100vw] bg-white/30 z-20 text-center grid place-content-center gap-3">
+        <div class="h-80 w-80 bg-white rounded-full grid place-content-center">
+            <img src="neco-arc.gif" class="h-60" alt="">
+        </div>
+        <h1 class="font-bold text-5xl text-[#222831]"> Cargando ... </h1>
+    </Section>
+    <section class="flex text-[#EEEEEE] bg-[#222831] overflow-y-hidden md:overflow-x-hidden">
+        <div class="min-w-[295px] max-w-[30%] px-5 h-screen bg-[#31363F]">            
             <h2 class="mt-5 mb-6 text-center text-4xl font-medium">Triangulos</h2>
             <h1>Primera cordenada</h1>
             <div class="flex mb-3 gap-5 justify-center">
@@ -40,10 +45,33 @@
                 </boton>
             </div>
 
-            <img class="mt-5 h-auto rounded-md bottom-0" src="neco-arc.gif" alt="neko-girl">
+            <div class="mt-2">
+                <h2 class="py-2 font-medium "> De primera a segunda coordenada </h2>
+                <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="Text1" placeholder="Faltan datos" type="text" name="" id="" disabled>
+                <div class="flex gap-3 mt-1">
+                    <h2 class="w-48"> Valor de M = </h2>
+                    <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="num1" placeholder="?" type="text" name="" id="" disabled>
+                </div>
+
+                <h2 class="py-2 font-medium "> De la segunda a la tercera coordenada </h2>
+                <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="text2" placeholder="Faltan datos" type="text" name="" id="" disabled>
+                <div class="flex gap-3 mt-1">
+                    <h2 class="w-48"> Valor de M = </h2>
+                    <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="num2" placeholder="?" type="text" name="" id="" disabled>
+                </div>
+
+                <h2 class="py-2 font-medium "> De la tercera a la primera cordenada coordenada </h2>
+                <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="text3" placeholder="Faltan datos" type="text" name="" id="" disabled>
+                <div class="flex gap-3 mt-1">
+                    <h2 class="w-48"> Valor de M = </h2>
+                    <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="num3" placeholder="?" type="text" name="" id="" disabled>
+                </div>
+            </div>
+
+            <!-- <img class="mt-5 h-auto rounded-md bottom-0" src="neco-arc.gif" alt="neko-girl"> -->
 
         </div>
-        <div class="h-[100vh] mt-5 relative">
+        <div class="h-[80vh] mt-5 relative">
             <div>
                 <canvas width="1225" height="700" id="plano-canvas"></canvas>
                 <div class="absolute top-0 h-[700px] w-[1225px] text-black">
@@ -185,10 +213,10 @@
     <!-- WebGL -->
     <script> 
         let x1, y1, x2, y2, x3, y3;
-        let Chec_x1,Chec_y1;
-        // const lateral = [];
+        let Chec_x1,Chec_y1; 
         let IsTarget = false;
         let isFirstRun = false;
+        let load = false;
 
         function updateX1() {
             // Obtener el valor del inputX1
@@ -233,18 +261,16 @@
             // start();
         }
         
-        function Lineas(vertices,px_1,py_1,px_2,py_2,dis,tabla,lateral) {
-
-            let Tx,Ty;
-
+        function Lineas(vertices,px_1,py_1,px_2,py_2,dis,tabla,lateral,Texto,num) {
+ 
             console.log(px_1,py_1);
 
-            let Bool_x = false;
+            let Bool_x = false; //si va de arriba a abajo
             let Bool_y = false;
             const VerTab = [];
 
             if(px_1 < px_2 ){
-                Bool_x = true;
+                Bool_x = true; //si va de abajo a arriba
             }
             if(py_1 < py_2 ){
                 Bool_y = true;
@@ -268,6 +294,7 @@
                 IN_Y = -IN_Y;
             }
 
+            num.placeholder = (M);
             // Consola
             // console.log('x1 es el mayor? ', Bool_x, ', y1 es el mayor?',Bool_y);
             // console.log('DX : ',DX);
@@ -281,6 +308,7 @@
             // VerTab.push(px_1,py_1);
 
             if ((Bool_x == true)&&(Bool_y == true)){
+                Texto.placeholder = 'Izquierda a Derecha, Abajo a Arriba';
                 for (;(px_1 <= px_2) && (py_1 <= py_2);){
                     vertices.push(px_1,py_1);
                     VerTab.push(px_1,py_1);
@@ -295,6 +323,7 @@
                     }
                 }
             } if ((Bool_x == false)&&(Bool_y == false)){
+                Texto.placeholder = 'Derecha a Izquierda, Arriba a Abajo';
                 for (;(px_1 >= px_2) && (py_1 >= py_2);){
                     vertices.push(px_1,py_1);
                     VerTab.push(px_1,py_1);
@@ -309,6 +338,7 @@
                     }
                 }
             } if ((Bool_x == true)&&(Bool_y == false)){
+                Texto.placeholder = "Izquierda a Derecha, Arriba a Abajo";
                 for (;(px_1 <= px_2) && (py_1 >= py_2);){
                     vertices.push(px_1,py_1);
                     VerTab.push(px_1,py_1);
@@ -323,14 +353,13 @@
                     }
                 }
             } if ((Bool_x == false)&&(Bool_y == true)){
+                Texto.placeholder = 'Derecha a Izquierda, Abajo a Arriba';
                 for (;(px_1 >= px_2) && (py_1 <= py_2);){
                     vertices.push(px_1,py_1);
                     if(IsTarget == true){
                         lateral.push(px_1,py_1);
-                    }
-
+                    } 
                     VerTab.push(px_1,py_1);
-                    
                     px_1 += IN_X * dis;
                     py_1 += IN_Y * dis;
                     console.log(px_1, py_1);
@@ -466,6 +495,15 @@
             const tabla2 = document.getElementById('tabla-vertices-2').getElementsByTagName('tbody')[0];
             const tabla3 = document.getElementById('tabla-vertices-3').getElementsByTagName('tbody')[0];
 
+            const Texto1 =  document.getElementById('Text1');
+            const num1 =    document.getElementById('num1');
+            const Texto2 =  document.getElementById('text2');
+            const num2 =    document.getElementById('num2');
+            const Texto3 =  document.getElementById('text3');
+            const num3 =    document.getElementById('num3');
+
+            var section = document.getElementById('loading');
+
             // tabla1.innerHTML = '';
             // tabla2.innerHTML = '';
             // tabla3.innerHTML = '';
@@ -475,7 +513,8 @@
                 tabla2.innerHTML = '';
                 tabla3.innerHTML = ''; 
             }
-            
+
+            load = true;
             x1 = Chec_x1;
             y1 = Chec_y1;
 
@@ -484,12 +523,14 @@
             const vertices = [];
             const lateral = [];
 
+            section.style.display = 'contents';
+
             if (x1 != null){
-                Lineas(vertices,x1,y1,x2,y2,dis,tabla1,lateral);
+                Lineas(vertices,x1,y1,x2,y2,dis,tabla1,lateral,Texto1,num1);
                 IsTarget = true;
-                Lineas(vertices,x2,y2,x3,y3,dis,tabla2,lateral);
+                Lineas(vertices,x2,y2,x3,y3,dis,tabla2,lateral,Texto2,num2);
                 IsTarget = false;
-                Lineas(vertices,x3,y3,x1,y1,dis,tabla3,lateral);
+                Lineas(vertices,x3,y3,x1,y1,dis,tabla3,lateral,Texto3,num3);
 
                 // console.log(lateral.length,lateral);
                 for(let i = 0; i <= lateral.length;) {
@@ -560,6 +601,8 @@
             gl.clear(gl.COLOR_BUFFER_BIT);
             gl.drawArrays(gl.POINTS, 0, vertices.length / 2); // Dibujar puntos 
             gl.deleteBuffer(vertexBuffer); 
+
+            section.style.display = 'none';
         } 
     </script>
 
@@ -574,6 +617,10 @@
 
             const projectionMatrix = mat4.create();
             mat4.ortho(projectionMatrix, -175, 175, -100, 100, -1, 1);
+
+            var section = document.getElementById('loading');
+
+            section.style.display = 'none'; 
 
             const vertices = [ 
                 0,100,
