@@ -7,29 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body onload="Regla();">
+    <!-- Loading -->
     <Section id="loading" class="absolute h-[100vh] w-[100vw] bg-white/30 z-20 text-center grid place-content-center gap-3">
         <div class="h-80 w-80 bg-white rounded-full grid place-content-center">
             <img src="neco-arc.gif" class="h-60" alt="">
         </div>
         <h1 class="font-bold text-5xl text-[#222831]"> Cargando ... </h1>
     </Section>
+
+    <!-- UI -->
     <section class="flex text-[#EEEEEE] bg-[#222831] overflow-y-hidden md:overflow-x-hidden">
         <div class="min-w-[295px] max-w-[30%] px-5 h-screen bg-[#31363F]">            
             <h2 class="mt-5 mb-6 text-center text-4xl font-medium">Triangulos</h2>
-            <h1>Primera cordenada</h1>
-            <div class="flex mb-3 gap-5 justify-center">
-                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="x1" type="number" name="" id="inputX1" oninput="updateX1();">
-                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="y1" type="number" name="" id="inputY1" oninput="updateY1();">
-            </div>
             <h1>Segunda cordenada</h1>
             <div class="flex mb-3 gap-5 justify-center">
                 <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="x2" type="number" name="" id="inputX2" oninput="updateX2();">
                 <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="y2" type="number" name="" id="inputY2" oninput="updateY2();" >
-            </div>
-            <h1>Tercera cordenada</h1>
-            <div class="flex gap-5 justify-center">
-                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="x3" type="number" name="" id="inputX3" oninput="updateX3();">
-                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="y3" type="number" name="" id="inputY3" oninput="updateY3();" >
             </div>
             <div class="flex gap-5">
                 <button type="button" id="boton" class="w-full py-1 my-5 bg-[#EEEEEE] text-[#222831] rounded-md font-medium hover:bg-[#76ABAE] hover:text-[#EEEEEE]" onclick="doTriangle()">
@@ -39,36 +32,24 @@
                     Limpiar
                 </button>
             </div>
-            <div class="flex">
-                <boton type="button" id="Mostrar" class="text-center py-3 w-full bg-[#76ABAE]">
-                    Mostrar tablas
-                </boton>
-            </div>
-
-            <div class="mt-2">
-                <h2 class="py-2 font-medium "> De primera a segunda coordenada </h2>
-                <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="Text1" placeholder="Faltan datos" type="text" name="" id="" disabled>
-                <div class="flex gap-3 mt-1">
-                    <h2 class="w-48"> Valor de M = </h2>
-                    <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="num1" placeholder="?" type="text" name="" id="" disabled>
-                </div>
-
-                <h2 class="py-2 font-medium "> De la segunda a la tercera coordenada </h2>
-                <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="text2" placeholder="Faltan datos" type="text" name="" id="" disabled>
-                <div class="flex gap-3 mt-1">
-                    <h2 class="w-48"> Valor de M = </h2>
-                    <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="num2" placeholder="?" type="text" name="" id="" disabled>
-                </div>
-
-                <h2 class="py-2 font-medium "> De la tercera a la primera cordenada coordenada </h2>
-                <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="text3" placeholder="Faltan datos" type="text" name="" id="" disabled>
-                <div class="flex gap-3 mt-1">
-                    <h2 class="w-48"> Valor de M = </h2>
-                    <input class="h-6 w-full bg-transparent placeholder-[#76ABAE]" id="num3" placeholder="?" type="text" name="" id="" disabled>
+            <div>
+                <h3 class="pb-6 text-2xl font-bold text-center text-[#76ABAE]"> 
+                    Tablas
+                </h3>
+                <div class="rounded-lg border-2 border-[#76ABAE]">
+                    <div class="flex py-2 w-full text-center font-bold text-[#31363F] bg-[#76ABAE]">
+                        <h1 class="w-1/2 text-center">X</h1>
+                        <h1 class="w-1/2 text-center">Y</h1>
+                    </div>
+                    <div class="overflow-y-scroll h-80 w-[100%]">
+                        <table id="tabla-vertices-1" class="text-[#EEEEEE] w-[200px]">
+                            <tbody class="w-[100%]"> 
+                                <!-- Aquí se llenará la tabla con los datos -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-
-            <!-- <img class="mt-5 h-auto rounded-md bottom-0" src="neco-arc.gif" alt="neko-girl"> -->
 
         </div>
         <div class="h-[80vh] mt-5 relative">
@@ -139,111 +120,21 @@
             </div>
         </div>
     </section>
-    
-    <dialog id="dialog" class="top-40 py-5 min-w-[400px] px-5 rounded-lg bg-[#31363F] border-4 border-[#222831]"
-    >
-        <button id="cerrarDialogo" class="absolute right-10 py-1 px-3 font-bold text-[#31363F] bg-[#76ABAE] rounded-full">
-            X
-        </button>
-        <h3 class="pb-6 text-2xl font-bold text-center text-[#76ABAE]"> 
-            Tablas
-        </h3>
-        <div class="flex gap-8">
-            <div class="rounded-lg border-2 border-[#76ABAE]">
-                <div class="flex py-2 w-full text-center font-bold text-[#31363F] bg-[#76ABAE]">
-                    <h1 class="w-1/2">X</h1>
-                    <h1 class="w-1/2">Y</h1>
-                </div>
-                <div class="overflow-y-scroll h-80 w-[220px]">
-                    <table id="tabla-vertices-1" class="text-[#EEEEEE] w-[200px]">
-                        <tbody> 
-                            <!-- Aquí se llenará la tabla con los datos -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="rounded-lg border-2 border-[#76ABAE]">
-                <div class="flex py-2 w-full text-center font-bold text-[#31363F] bg-[#76ABAE]">
-                    <h1 class="w-1/2">X</h1>
-                    <h1 class="w-1/2">Y</h1>
-                </div>
-                <div class="overflow-y-scroll h-80 w-[220px]">
-                    <table id="tabla-vertices-2" class="text-[#EEEEEE] w-[200px]">
-                        <tbody> 
-                            <!-- Aquí se llenará la tabla con los datos -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="rounded-lg border-2 border-[#76ABAE]">
-                <div class="flex py-2 w-full text-center font-bold text-[#31363F] bg-[#76ABAE]">
-                    <h1 class="w-1/2">X</h1>
-                    <h1 class="w-1/2">Y</h1>
-                </div>
-                <div class="overflow-y-scroll h-80 w-[220px]">
-                    <table id="tabla-vertices-3" class="text-[#EEEEEE] w-[200px]">
-                        <tbody> 
-                            <!-- Aquí se llenará la tabla con los datos -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </dialog>
    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
-    <!-- interaccion con dialog -->
-    <script>
-        // Obtener el botón y el diálogo por su ID
-        var boton = document.getElementById("Mostrar");
-        var dialogo = document.getElementById("dialog");
-
-        // Cuando se hace clic en el botón, mostrar el diálogo
-        boton.addEventListener("click", function() {
-            dialogo.style.display = "block";
-        });
-
-        // Cuando se hace clic en el botón de cerrar, ocultar el diálogo
-        document.getElementById("cerrarDialogo").addEventListener("click", function() {
-            dialogo.style.display = "none";
-        });
-    </script>
+     
     <!-- WebGL -->
     <script> 
-        let x1, y1, x2, y2, x3, y3;
+        let x1 = 0, y1 = 0, x2, y2, x3, y3;
         let Chec_x1,Chec_y1; 
         let IsTarget = false;
         let isFirstRun = false;
         let load = false;
 
-        function updateX1() { 
-            const inputX1 = document.getElementById('inputX1'); 
-            x1 = parseFloat(inputX1.value);
-            Chec_x1 = x1;
-        }
-        function updateY1() { 
-            const inputY1 = document.getElementById('inputY1'); 
-            y1 = parseFloat(inputY1.value);
-            Chec_y1 = y1;
-        }
         function updateX2() { 
             const inputX2 = document.getElementById('inputX2'); 
             x2 = parseFloat(inputX2.value); 
         }
-        // function updateY2() { 
-        //     const inputY2 = document.getElementById('inputY2'); 
-        //     y2 = parseFloat(inputY2.value); 
-        // }
-        // function updateX3() { 
-        //     const inputX3 = document.getElementById('inputX3'); 
-        //     x3 = parseFloat(inputX3.value); 
-        // }
-        // function updateY3() { 
-        //     const inputY3 = document.getElementById('inputY3'); 
-        //     y3 = parseFloat(inputY3.value); 
-        // }
         
         function Lineas(vertices,px_1,py_1,px_2,py_2,dis,tabla,lateral,Texto,num) {
  
@@ -302,7 +193,7 @@
                     px_1 += IN_X * dis;
                     py_1 += IN_Y * dis;
                     console.log(x1, y1);
-                    if ((px_1 > 200) || (py_1 > 200)){
+                    if ((px_1 > 500) || (py_1 > 500)){
                         break;
                     }
                 }
@@ -317,7 +208,7 @@
                     px_1 += IN_X * dis;
                     py_1 += IN_Y * dis;
                     console.log(px_1, py_1);
-                    if ((px_1 > 200) || (py_1 > 200)){
+                    if ((px_1 > 500) || (py_1 > 500)){
                         break;
                     }
                 }
@@ -332,7 +223,7 @@
                     px_1 += IN_X * dis;
                     py_1 += IN_Y * dis;
                     console.log(px_1, py_1);
-                    if ((px_1 > 200) || (py_1 > 200)){
+                    if ((px_1 > 500) || (py_1 > 500)){
                         break;
                     }
                 }
@@ -347,7 +238,7 @@
                     px_1 += IN_X * dis;
                     py_1 += IN_Y * dis;
                     console.log(px_1, py_1);
-                    if ((px_1 > 200) || (py_1 > 200)){
+                    if ((px_1 > 500) || (py_1 > 500)){
                         break;
                     }
                 }
@@ -412,7 +303,7 @@
                 px_1 += IN_X * dis;
                 py_1 += IN_Y * dis;
                 console.log(x1, y1);
-                if ((px_1 > 200) || (py_1 > 200) || ((px_1 == XL) && (py_1 == YL))){
+                if ((px_1 > 500) || (py_1 > 500) || ((px_1 == XL) && (py_1 == YL))){
                     break;
                 }
                 XL = px_1;
@@ -424,7 +315,7 @@
                 px_1 += IN_X * dis;
                 py_1 += IN_Y * dis;
                 console.log(px_1, py_1);
-                if ((px_1 > 200) || (py_1 > 200) || ((px_1 == XL) && (py_1 == YL))){
+                if ((px_1 > 500) || (py_1 > 500) || ((px_1 == XL) && (py_1 == YL))){
                     break;
                 }
                 XL = px_1;
@@ -436,7 +327,7 @@
                 px_1 += IN_X * dis;
                 py_1 += IN_Y * dis;
                 console.log(px_1, py_1);
-                if ((px_1 > 200) || (py_1 > 200) || ((px_1 == XL) && (py_1 == YL))){
+                if ((px_1 > 500) || (py_1 > 500) || ((px_1 == XL) && (py_1 == YL))){
                     break;
                 }
                 XL = px_1;
@@ -448,7 +339,7 @@
                 px_1 += IN_X * dis;
                 py_1 += IN_Y * dis;
                 console.log(px_1, py_1);
-                if ((px_1 > 200) || (py_1 > 200) || ((px_1 == XL) && (py_1 == YL))){
+                if ((px_1 > 500) || (py_1 > 500) || ((px_1 == XL) && (py_1 == YL))){
                     break;
                 }
                 XL = px_1;
@@ -505,7 +396,7 @@
                     lateral.push(x,y);
                 }
                 // console.log(x, y);
-                if ( x == 100 || y == 100 )
+                if ( x == 500 || y == 500 )
                 {
                     break
                 }
@@ -545,6 +436,20 @@
             return lateral;
         }
 
+        function Tabla(Datos, tabla){
+            // console.log('a ',Datos.length);
+            if (Datos.length > 4)
+            {
+                for (let i = 0; i < Datos.length; i += 2) { 
+                    const fila = tabla.insertRow(); 
+                    const celdaX = fila.insertCell(0);
+                    celdaX.textContent = '' + parseFloat(Datos[i]).toFixed(2); 
+                    const celdaY = fila.insertCell(1);
+                    celdaY.textContent = '' + parseFloat(Datos[i + 1]).toFixed(2);
+                }
+            } 
+        }
+
         function start() {
             const canvas = document.getElementById('webgl-canvas');
             const gl = canvas.getContext('webgl', {antialias:true} );
@@ -554,27 +459,16 @@
             gl.viewport(0, 0, canvasWidth, canvasHeight);
 
             const projectionMatrix = mat4.create();
-            mat4.ortho(projectionMatrix, -175, 175, -100, 100, -1, 1);
+            mat4.ortho(projectionMatrix, -700, 700, -400, 400, -1, 1);
 
             const tabla1 = document.getElementById('tabla-vertices-1').getElementsByTagName('tbody')[0];
-            const tabla2 = document.getElementById('tabla-vertices-2').getElementsByTagName('tbody')[0];
-            const tabla3 = document.getElementById('tabla-vertices-3').getElementsByTagName('tbody')[0];
-
-            const Texto1 =  document.getElementById('Text1');
-            const num1 =    document.getElementById('num1');
-            const Texto2 =  document.getElementById('text2');
-            const num2 =    document.getElementById('num2');
-            const Texto3 =  document.getElementById('text3');
-            const num3 =    document.getElementById('num3'); 
 
             if (isFirstRun == true) { 
                 tabla1.innerHTML = '';
-                tabla2.innerHTML = '';
-                tabla3.innerHTML = ''; 
             }
 
-            x1 = Chec_x1;
-            y1 = Chec_y1;
+            // x1 = Chec_x1;
+            // y1 = Chec_y1;
 
             //  inicio 
             let dis = 0.1;
@@ -584,15 +478,10 @@
 
             if ((x1 != null) || (y1 != null)){
                 ChecVertices(x1,y1,x2,lateral);
+                Tabla(lateral, tabla1);
             }
 
-            if (x1 != null){
-                // Lineas(vertices,x1,y1,x2,y2,dis,tabla1,lateral,Texto1,num1);
-                // IsTarget = true;
-                // Lineas(vertices,x2,y2,x3,y3,dis,tabla2,lateral,Texto2,num2);
-                // IsTarget = false;
-                // Lineas(vertices,x3,y3,x1,y1,dis,tabla3,lateral,Texto3,num3);
- 
+            if (x1 != null){ 
                 for(let i = 0; i <= lateral.length - 1 ;) {
                     let x = lateral[i];
                     let y = lateral[i + 1];
