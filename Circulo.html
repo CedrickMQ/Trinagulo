@@ -18,99 +18,111 @@
     <!-- UI -->
     <section class="flex text-[#EEEEEE] bg-[#222831] overflow-y-hidden md:overflow-x-hidden">
         <div class="min-w-[295px] max-w-[30%] px-5 h-screen bg-[#31363F]">            
-            <h2 class="mt-5 mb-6 text-center text-4xl font-medium">Triangulos</h2>
-            <h1>Segunda cordenada</h1>
-            <div class="flex mb-3 gap-5 justify-center">
-                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="x2" type="number" name="" id="inputX2" oninput="updateX2();">
-                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="y2" type="number" name="" id="inputY2" oninput="updateY2();" >
+            <h2 class="mt-5 mb-6 text-center text-4xl font-medium">Circulos</h2>
+            <h1>Cordenadas</h1>
+            <div class="flex mt-1 mb-3 gap-2 justify-center">
+                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="x1" type="number" name="" id="inputX1" oninput="updateX1();">
+                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="y1" type="number" name="" id="inputY1" oninput="updateY1();">
+                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="Radio" type="number" name="" id="inputX2" oninput="updateX2();">
             </div>
-            <div class="flex gap-5">
-                <button type="button" id="boton" class="w-full py-1 my-5 bg-[#EEEEEE] text-[#222831] rounded-md font-medium hover:bg-[#76ABAE] hover:text-[#EEEEEE]" onclick="doTriangle()">
+            <div class="flex gap-5 mt-5">
+                <button type="button" id="boton" class="w-full py-1 bg-[#EEEEEE] text-[#222831] rounded-md font-medium hover:bg-[#76ABAE] hover:text-[#EEEEEE]" onclick="doTriangle()">
                     Dibuja
                 </button>
-                <button type="button" id="boton" class="w-full py-1 my-5 bg-[#EEEEEE] text-[#222831] rounded-md font-medium hover:bg-[#76ABAE] hover:text-[#EEEEEE]" onclick="limpiar()">
+                <button type="button" id="boton" class="w-full py-1 bg-[#EEEEEE] text-[#222831] rounded-md font-medium hover:bg-[#76ABAE] hover:text-[#EEEEEE]" onclick="limpiar()">
                     Limpiar
                 </button>
             </div>
             <div>
-                <h3 class="pb-6 text-2xl font-bold text-center text-[#76ABAE]"> 
+                <h3 class="pb-1 mt-3 text-xl font-bold text-[#76ABAE]"> 
                     Tablas
                 </h3>
-                <div class="rounded-lg border-2 border-[#76ABAE]">
-                    <div class="flex py-2 w-full text-center font-bold text-[#31363F] bg-[#76ABAE]">
-                        <h1 class="w-1/2 text-center">X</h1>
-                        <h1 class="w-1/2 text-center">Y</h1>
+                <div class="overflow-y-scroll h-[67vh]">
+                    <h2 class="pl-4 mb-3">
+                        Tabla del punto medio
+                    </h2>
+                    <div class="rounded-lg border-2 border-[#76ABAE]">
+                        <div class="flex py-2 w-full text-center font-bold text-[#31363F] bg-[#76ABAE]">
+                            <h1 class="w-1/2 text-center">Pk</h1>
+                            <h1 class="w-1/2 text-center">X</h1>
+                            <h1 class="w-1/2 text-center">Y</h1>
+                        </div>
+                        <div class="overflow-y-scroll h-52 w-[100%]">
+                            <table id="tabla-vertices-1" class="text-[#EEEEEE] w-[100%]">
+                                <tbody class="w-[100%] text-center"> 
+                                    <!-- Aquí se llenará la tabla con los datos -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="overflow-y-scroll h-80 w-[100%]">
-                        <table id="tabla-vertices-1" class="text-[#EEEEEE] w-[200px]">
-                            <tbody class="w-[100%]"> 
-                                <!-- Aquí se llenará la tabla con los datos -->
-                            </tbody>
-                        </table>
+                    <h2 class="pl-4 my-3">
+                        Tabla cordenadas generales
+                    </h2>
+                    <div class="rounded-lg border-2 border-[#76ABAE]">
+                        <div class="flex py-2 w-full text-center font-bold text-[#31363F] bg-[#76ABAE]">
+                            <h1 class="w-1/2 text-center">X</h1>
+                            <h1 class="w-1/2 text-center">Y</h1>
+                        </div>
+                        <div class="overflow-y-scroll h-52 w-[100%]">
+                            <table id="tabla-vertices-2" class="text-[#EEEEEE] w-[100%]">
+                                <tbody class="w-[100%] text-center"> 
+                                    <!-- Aquí se llenará la tabla con los datos -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="h-[80vh] mt-5 relative">
             <div>
                 <canvas width="1225" height="700" id="plano-canvas"></canvas>
                 <div class="absolute top-0 h-[700px] w-[1225px] text-black">
-                    <div class="flex absolute top-[51%] left-[60px] gap-1">
+                    <div class="flex absolute top-[51%] left-[60px] gap-3">
+                        <p class="w-10">-600</p>
+                        <p class="w-8">-550</p>
+                        <p class="w-8">-500</p>
+                        <p class="w-8">-450</p>
+                        <p class="w-8">-400</p>
+                        <p class="w-8">-350</p>
+                        <p class="w-8">-300</p>
+                        <p class="w-8">-250</p>
+                        <p class="w-8">-200</p>
                         <p class="w-8">-150</p>
-                        <p class="w-8">-140</p>
-                        <p class="w-8">-130</p>
-                        <p class="w-8">-120</p>
-                        <p class="w-8">-110</p>
                         <p class="w-8">-100</p>
-                        <p class="w-8">-90</p>
-                        <p class="w-8">-80</p>
-                        <p class="w-8">-70</p>
-                        <p class="w-8">-60</p>
                         <p class="w-8">-50</p>
-                        <p class="w-8">-40</p>
-                        <p class="w-8">-30</p>
-                        <p class="w-8">-20</p>
-                        <p class="w-8">-10</p>
-                        <p class="w-8 text-transparent">.</p>
-                        <p class="w-8">10</p>
-                        <p class="w-8">20</p>
-                        <p class="w-8">30</p>
-                        <p class="w-8">40</p>
-                        <p class="w-8">50</p>
-                        <p class="w-7">60</p>
-                        <p class="w-8">70</p>
-                        <p class="w-8">80</p>
-                        <p class="w-6">90</p>
+                        <p class="w-10 text-transparent">.</p>
+                        <p class="w-7">50</p>
                         <p class="w-8">100</p>
-                        <p class="w-8">110</p>
-                        <p class="w-8">120</p>
-                        <p class="w-8">130</p>
-                        <p class="w-8">140</p>
                         <p class="w-8">150</p>
+                        <p class="w-8">200</p>
+                        <p class="w-8">250</p>
+                        <p class="w-7">300</p>
+                        <p class="w-8">350</p>
+                        <p class="w-8">400</p>
+                        <p class="w-8">450</p>
+                        <p class="w-8">500</p>
+                        <p class="w-8">550</p>
+                        <p class="w-8">600</p>
                     </div>
-                    <div class="grid absolute left-[49.5%] top-[-5px] gap-3 text-right">
+                    <div class="grid absolute left-[50.3%] top-[-5px] gap-5 text-right">
+                        <p class="h-5">400</p>
+                        <p class="h-6">350</p>
+                        <p class="h-6">300</p>
+                        <p class="h-6">250</p>
+                        <p class="h-6">200</p>
+                        <p class="h-5">150</p>
                         <p class="h-6">100</p>
-                        <p class="h-6">90</p>
-                        <p class="h-5">80</p>
-                        <p class="h-6">70</p>
-                        <p class="h-6">60</p>
-                        <p class="h-5">50</p>
-                        <p class="h-6">40</p>
-                        <p class="h-6">30</p>
-                        <p class="h-5">20</p>
-                        <p class="h-6">10</p>
+                        <p class="h-6">50</p>
                         <p class="h-6 text-left text-[#76ABAE]">0</p>
-                        <p class="h-6">-10</p>
-                        <p class="h-5">-20</p>
-                        <p class="h-6">-30</p>
-                        <p class="h-6">-40</p>
-                        <p class="h-5">-50</p>
-                        <p class="h-6">-60</p>
-                        <p class="h-6">-70</p>
-                        <p class="h-5">-80</p>
-                        <p class="h-6">-90</p>
-                        <p class="h-6">-100</p>
+                        <p class="h-6">-50</p>
+                        <p class="h-5">-100</p>
+                        <p class="h-6">-150</p>
+                        <p class="h-6">-200</p>
+                        <p class="h-5">-250</p>
+                        <p class="h-6">-300</p>
+                        <p class="h-6">-350</p>
+                        <p class="h-5">-400</p>
 
                     </div>
                 </div>
@@ -125,12 +137,26 @@
      
     <!-- WebGL -->
     <script> 
-        let x1 = 0, y1 = 0, x2, y2, x3, y3;
+        let x1, y1, x2, y2, x3, y3;
         let Chec_x1,Chec_y1; 
         let IsTarget = false;
         let isFirstRun = false;
         let load = false;
 
+        function updateX1() {
+            // Obtener el valor del inputX1
+            const inputX1 = document.getElementById('inputX1');
+            // Asignar el valor del input a x1
+            x1 = parseFloat(inputX1.value);
+            Chec_x1 = x1;
+        }
+        function updateY1() {
+            // Obtener el valor del inputX1
+            const inputY1 = document.getElementById('inputY1');
+            // Asignar el valor del input a x1
+            y1 = parseFloat(inputY1.value);
+            Chec_y1 = y1;
+        }
         function updateX2() { 
             const inputX2 = document.getElementById('inputX2'); 
             x2 = parseFloat(inputX2.value); 
@@ -376,24 +402,60 @@
             }, 2000);
         }
 
-        function ChecVertices(x1,y1,R,lateral){
+        function ChecVertices(x1,y1,R,lateral,Tabla){
             let Rr, k = 0 ;
             let p = 1 - R;
-            let x = x1, y = R; 
-            lateral.push(x,R);
-            for(; x < y ;){
+            let x = 0, y = R; 
+            lateral.push(x + x1, R + y1);
+            lateral.push(R + x1, x + y1);
+            lateral.push(-x + x1, -R + y1);
+            lateral.push(-R + x1, -x + y1);
+            for(; x <= y ;){
+                const fila = Tabla.insertRow(); 
+                const celdaP = fila.insertCell(0);
+                celdaP.textContent = '' + parseFloat(p).toFixed(2); 
+                const celdaX = fila.insertCell(1);
+                celdaX.textContent = '' + parseFloat(x).toFixed(2); 
+                const celdaY = fila.insertCell(2);
+                celdaY.textContent = '' + parseFloat(y).toFixed(2);
+                
                 if (p < 0){
                     x++; 
                     // console.log(x,' , ',y, 'case A, p = ',p);
                     p = p + (2 * x) + 1;
-                    lateral.push(x,y);
-                }
-                if (p >= 0){
+
+                    lateral.push( x + x1, y + y1 );
+                    lateral.push( y + x1, x + y1 );
+
+                    lateral.push( x + x1, y1 - y );
+                    lateral.push( x1 + y, y1 - x );
+
+                    lateral.push( -x + x1, y + y1 );
+                    lateral.push( -y + x1, x + y1 );
+
+                    lateral.push( -x + x1, y1 - y );
+                    lateral.push( x1 - y, y1 - x );
+                    
+                } 
+                else {
                     x++;
                     y--; 
                     // console.log(x,' , ',y, ' case B, p = ',p);
                     p = p + (2 * x) + 1 - (2 * y);
-                    lateral.push(x,y);
+
+                    // lateral.push(x,y);
+
+                    lateral.push( x + x1, y + y1 ); 
+                    lateral.push( y + x1, x + y1 );
+
+                    lateral.push( x + x1, y1 - y );
+                    lateral.push( x1 + y, y1 - x );
+                    
+                    lateral.push( -x + x1, y + y1 );
+                    lateral.push( -y + x1, x + y1 );
+
+                    lateral.push( -x + x1, y1 - y );
+                    lateral.push( x1 - y, y1 - x );
                 }
                 // console.log(x, y);
                 if ( x == 500 || y == 500 )
@@ -404,33 +466,33 @@
 
             console.log('Chec',lateral.length);
 
-            let first = lateral.length;
+            // let first = lateral.length;
             
-            for(let i = lateral.length - 3 ; i >= 0 ; i--){
-                // console.log(vertices[i]);
-                lateral.push(lateral[i]);
-            }
+            // for(let i = lateral.length - 3 ; i >= 0 ; i--){
+            //     // console.log(vertices[i]);
+            //     lateral.push(lateral[i]);
+            // }
 
-            for(let i = lateral.length - 1 ; i >= 0 ;){
-                // console.log(vertices[i]);
-                lateral.push(lateral[i]);
-                lateral.push(-lateral[i - 1]);
+            // for(let i = lateral.length - 1 ; i >= 0 ;){
+            //     // console.log(vertices[i]);
+            //     lateral.push(lateral[i]);
+            //     lateral.push(-lateral[i - 1]);
 
-                i -= 2;
-            }
+            //     i -= 2;
+            // }
 
-            for(let i = 0 ; i < (first * 2) ;){
-                // console.log(-lateral[i]);
-                // console.log(lateral[i+1]);
+            // for(let i = 0 ; i < (first * 2) ;){
+            //     // console.log(-lateral[i]);
+            //     // console.log(lateral[i+1]);
 
-                lateral.push(-lateral[i]);
-                lateral.push(lateral[i + 1]);
+            //     lateral.push(-lateral[i]);
+            //     lateral.push(lateral[i + 1]);
  
-                lateral.push(-lateral[i]);
-                lateral.push(-lateral[i + 1]);
+            //     lateral.push(-lateral[i]);
+            //     lateral.push(-lateral[i + 1]);
 
-                i += 2;
-            }
+            //     i += 2;
+            // }
 
             console.log(lateral);
             return lateral;
@@ -462,9 +524,11 @@
             mat4.ortho(projectionMatrix, -700, 700, -400, 400, -1, 1);
 
             const tabla1 = document.getElementById('tabla-vertices-1').getElementsByTagName('tbody')[0];
+            const tabla2 = document.getElementById('tabla-vertices-2').getElementsByTagName('tbody')[0];
 
             if (isFirstRun == true) { 
                 tabla1.innerHTML = '';
+                tabla2.innerHTML = '';
             }
 
             // x1 = Chec_x1;
@@ -476,9 +540,11 @@
             const lateral = [];            
 
 
-            if ((x1 != null) || (y1 != null)){
-                ChecVertices(x1,y1,x2,lateral);
-                Tabla(lateral, tabla1);
+            if ((x2 != null) 
+            // || (y1 != null)
+            ){
+                ChecVertices(x1,y1,x2,lateral,tabla1);
+                Tabla(lateral, tabla2);
             }
 
             if (x1 != null){ 
@@ -557,6 +623,7 @@
     </script>
 
     <script> 
+        let R = 6;
         function Regla() {
             const canvas = document.getElementById('plano-canvas');
             const gl = canvas.getContext('webgl', {antialias:true} );
@@ -566,260 +633,218 @@
             gl.viewport(0, 0, canvasWidth, canvasHeight);
 
             const projectionMatrix = mat4.create();
-            mat4.ortho(projectionMatrix, -175, 175, -100, 100, -1, 1);
+            mat4.ortho(projectionMatrix, -700, 700, -400, 400, -1, 1);
 
             var section = document.getElementById('loading');
 
             section.style.display = 'none';
             // 'none'; 
 
-            const vertices = [ 
-                0,100,
+            const vertices = [
+                -R, 400,
+                R,  400,
+                0,  400,
 
-                0,90,
-                3,90,
-                -3,90,
-                0,90,
+                0,  350,
+                R,  350,
+                -R, 350,
+                0,  350,
 
-                0,80,
-                3,80,
-                -3,80,
-                0,80,
+                0,  300,
+                R,  300,
+                -R, 300,
+                0,  300,
 
-                0,70,
-                3,70,
-                -3,70,
-                0,70,
+                0,  250,
+                R,  250,
+                -R, 250,
+                0,  250,
 
-                0,60,
-                3,60,
-                -3,60,
-                0,60,
+                0,  200,
+                R,  200,
+                -R, 200,
+                0,  200,
 
-                0,50,
-                3,50,
-                -3,50,
-                0,50,
+                0,  150,
+                R,  150,
+                -R, 150,
+                0,  150,
 
-                0,40,
-                3,40,
-                -3,40,
-                0,40,
+                0,  100,
+                R,  100,
+                -R, 100,
+                0,  100,
 
-                0,30,
-                3,30,
-                -3,30,
-                0,30,
+                0,  50,
+                R,  50,
+                -R, 50,
+                0,  50,
 
-                0,20,
-                3,20,
-                -3,20,
-                0,20,
-
-                0,10,
-                3,10,
-                -3,10,
-                0,10,
-
-                0,-10,
-                3,-10,
-                -3,-10,
-                0,-10,
+                0,  -50,
+                R,  -50,
+                -R, -50,
+                0,  -50,
     
-                0,-20,
-                3,-20,
-                -3,-20,
-                0,-20,
+                0,  -100,
+                R,  -100,
+                -R, -100,
+                0,  -100,
 
-                0,-30,
-                3,-30,
-                -3,-30,
-                0,-30,
+                0,  -150,
+                R,  -150,
+                -R, -150,
+                0,  -150,
 
-                0,-40,
-                3,-40,
-                -3,-40,
-                0,-40,
+                0,  -200,
+                R,  -200,
+                -R, -200,
+                0,  -200,
                 
-                0,-50,
-                3,-50,
-                -3,-50,
-                0,-50,
+                0,  -250,
+                R,  -250,
+                -R, -250,
+                0,  -250,
                 
-                0,-60,
-                3,-60,
-                -3,-60,
-                0,-60,
+                0,  -300,
+                R,  -300,
+                -R, -300,
+                0,  -300,
                 
-                0,-70,
-                3,-70,
-                -3,-70,
-                0,-70,
+                0,  -350,
+                R,  -350,
+                -R, -350,
+                0,  -350,
                 
-                0,-80,
-                3,-80,
-                -3,-80,
-                0,-80,
+                0,  -400,
+                R,  -400,
+                -R, -400,
+                0,  -400,
 
-                0,-90,
-                3,-90,
-                -3,-90,
-                0,-90,
+                0,      0,
 
-                0,-100,
-                0,0,
+                -50,    0,
+                -50,    R,
+                -50,    -R,
+                -50,    0,
 
-                -10,0,
-                -10,3,
-                -10,-3,
-                -10,0,
+                -100,    0,
+                -100,    R,
+                -100,    -R,
+                -100,    0,
 
-                -20,0,
-                -20,3,
-                -20,-3,
-                -20,0,
+                -150,    0,
+                -150,    R,
+                -150,    -R,
+                -150,    0,
 
-                -30,0,
-                -30,3,
-                -30,-3,
-                -30,0,
+                -200,    0,
+                -200,    R,
+                -200,    -R,
+                -200,    0,
 
-                -40,0,
-                -40,3,
-                -40,-3,
-                -40,0,
+                -250,    0,
+                -250,    R,
+                -250,    -R,
+                -250,    0,
 
-                -50,0,
-                -50,3,
-                -50,-3,
-                -50,0,
+                -300,    0,
+                -300,    R,
+                -300,    -R,
+                -300,    0,
 
-                -60,0,
-                -60,3,
-                -60,-3,
-                -60,0,
+                -350,    0,
+                -350,    R,
+                -350,    -R,
+                -350,    0,
 
-                -70,0,
-                -70,3,
-                -70,-3,
-                -70,0,
+                -400,    0,
+                -400,    R,
+                -400,    -R,
+                -400,    0,
 
-                -80,0,
-                -80,3,
-                -80,-3,
-                -80,0,
+                -450,    0,
+                -450,    R,
+                -450,    -R,
+                -450,    0,
 
-                -90,0,
-                -90,3,
-                -90,-3,
-                -90,0,
+                -500,   0,
+                -500,   R,
+                -500,   -R,
+                -500,   0,
 
-                -100,0,
-                -100,3,
-                -100,-3,
-                -100,0,
+                -550,   0,
+                -550,   R,
+                -550,   -R,
+                -550,   0,
 
-                -110,0,
-                -110,3,
-                -110,-3,
-                -110,0,
+                -600,   0,
+                -600,   R,
+                -600,   -R,
+                -600,   0,
 
-                -120,0,
-                -120,3,
-                -120,-3,
-                -120,0,
+                600,    0,
 
-                -130,0,
-                -130,3,
-                -130,-3,
-                -130,0,
+                50,     0,
+                50,     R,
+                50,     -R,
+                50,     0,
 
-                -140,0,
-                -140,3,
-                -140,-3,
-                -140,0,
+                100,     0,
+                100,     R,
+                100,     -R,
+                100,     0,
 
-                -150,0,
-                -150,3,
-                -150,-3,
-                -150,0,
+                150,     0,
+                150,     R,
+                150,     -R,
+                150,     0,
 
-                150,0,
+                200,     0,
+                200,     R,
+                200,     -R,
+                200,     0,
 
-                10,0,
-                10,3,
-                10,-3,
-                10,0,
+                250,     0,
+                250,     R,
+                250,     -R,
+                250,     0,
 
-                20,0,
-                20,3,
-                20,-3,
-                20,0,
+                300,     0,
+                300,     R,
+                300,     -R,
+                300,     0,
 
-                30,0,
-                30,3,
-                30,-3,
-                30,0,
+                350,     0,
+                350,     R,
+                350,     -R,
+                350,     0,
 
-                40,0,
-                40,3,
-                40,-3,
-                40,0,
+                400,     0,
+                400,     R,
+                400,     -R,
+                400,     0,
 
-                50,0,
-                50,3,
-                50,-3,
-                50,0,
+                450,     0,
+                450,     R,
+                450,     -R,
+                450,     0,
 
-                60,0,
-                60,3,
-                60,-3,
-                60,0,
+                500,    0,
+                500,    R,
+                500,    -R,
+                500,    0,
 
-                70,0,
-                70,3,
-                70,-3,
-                70,0,
+                550,    0,
+                550,    R,
+                550,    -R,
+                550,    0,
 
-                80,0,
-                80,3,
-                80,-3,
-                80,0,
+                600,    0,
+                600,    R,
+                600,    -R,
+                600,    0,
 
-                90,0,
-                90,3,
-                90,-3,
-                90,0,
-
-                100,0,
-                100,3,
-                100,-3,
-                100,0,
-
-                110,0,
-                110,3,
-                110,-3,
-                110,0,
-
-                120,0,
-                120,3,
-                120,-3,
-                120,0,
-
-                130,0,
-                130,3,
-                130,-3,
-                130,0,
-
-                140,0,
-                140,3,
-                140,-3,
-                140,0,
-
-                150,0,
-                150,3,
-                150,-3,
-                150,0,
+                -600,   0,
 
             ];
 
@@ -834,6 +859,7 @@
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
             // Crear el programa de shaders
+
             const vertexShaderSource = `
                 attribute vec2 position;
                 uniform mat4 u_projectionMatrix;
@@ -841,7 +867,7 @@
                     gl_Position = u_projectionMatrix * vec4(position, 0.0, 1.0);
                     gl_PointSize = 0.1; // Tamaño de los puntos
                 }
-            `;
+            `; 
 
             const fragmentShaderSource = `
                 precision mediump float;
