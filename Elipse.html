@@ -21,9 +21,12 @@
             <h2 class="mt-5 mb-6 text-center text-4xl font-medium">Circulos</h2>
             <h1>Cordenadas</h1>
             <div class="flex mt-1 mb-3 gap-2 justify-center">
-                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="x1" type="number" name="" id="inputX1" oninput="updateX1();">
-                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="y1" type="number" name="" id="inputY1" oninput="updateY1();">
-                <input class="w-20 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="Radio" type="number" name="" id="inputX2" oninput="updateX2();">
+                <input class="w-24 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="x1" type="number" name="" id="inputX1" oninput="updateX1();">
+                <input class="w-24 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="y1" type="number" name="" id="inputY1" oninput="updateY1();">
+            </div>
+            <div class="flex mt-1 mb-3 gap-2 justify-center">
+                <input class="w-24 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="Radio X" type="number" name="" id="inputRX" oninput="updateRX();">
+                <input class="w-24 h-10 px-2 bg-[#76ABAE] text-[#222831] rounded-lg placeholder:text-[#EEEEEE]" placeholder="Radio Y" type="number" name="" id="inputRY" oninput="updateRY();">
             </div>
             <div class="flex gap-5 mt-5">
                 <button type="button" id="boton" class="w-full py-1 bg-[#EEEEEE] text-[#222831] rounded-md font-medium hover:bg-[#76ABAE] hover:text-[#EEEEEE]" onclick="doTriangle()">
@@ -37,7 +40,7 @@
                 <h3 class="pb-1 mt-3 text-xl font-bold text-[#76ABAE]"> 
                     Tablas
                 </h3>
-                <div class="overflow-y-scroll h-[67vh]">
+                <div class="overflow-y-scroll h-[60vh]">
                     <h2 class="pl-4 mb-3">
                         Tabla del punto medio
                     </h2>
@@ -137,7 +140,7 @@
      
     <!-- WebGL -->
     <script> 
-        let x1, y1, x2, y2, x3, y3;
+        let x1 = 0, y1 = 0, rx, ry;
         let Chec_x1,Chec_y1; 
         let IsTarget = false;
         let isFirstRun = false;
@@ -151,15 +154,17 @@
             Chec_x1 = x1;
         }
         function updateY1() {
-            // Obtener el valor del inputX1
             const inputY1 = document.getElementById('inputY1');
-            // Asignar el valor del input a x1
             y1 = parseFloat(inputY1.value);
             Chec_y1 = y1;
         }
-        function updateX2() { 
-            const inputX2 = document.getElementById('inputX2'); 
-            x2 = parseFloat(inputX2.value); 
+        function updateRX() { 
+            const inputRX = document.getElementById('inputRX'); 
+            rx = parseFloat(inputRX.value); 
+        }
+        function updateRY() { 
+            const inputRY = document.getElementById('inputRY'); 
+            ry = parseFloat(inputRY.value); 
         }
         
         function Lineas(vertices,px_1,py_1,px_2,py_2,dis,tabla,lateral,Texto,num) {
@@ -380,6 +385,21 @@
         function limpiar(){
             const canvas = document.getElementById('webgl-canvas');
             const gl = canvas.getContext('webgl');
+            
+            const tabla1 = document.getElementById('tabla-vertices-1').getElementsByTagName('tbody')[0];
+            const tabla2 = document.getElementById('tabla-vertices-2').getElementsByTagName('tbody')[0];
+            const inputX1 = document.getElementById('inputX1');
+            const inputY1 = document.getElementById('inputY1');
+            const inputRX = document.getElementById('inputRX'); 
+            const inputRY = document.getElementById('inputRY'); 
+
+            inputX1.value = '';
+            inputY1.value = '';
+            inputRX.value = '';
+            inputRY.value = '';
+
+            tabla1.innerHTML = '';
+            tabla2.innerHTML = '';
 
             if (!gl) {
                 console.error('Tu navegador no soporta WebGL');
@@ -402,98 +422,96 @@
             }, 2000);
         }
 
-        function ChecVertices(x1,y1,R,lateral,Tabla){
-            let Rr, k = 0 ;
-            let p = 1 - R;
-            let x = 0, y = R; 
-            lateral.push(x + x1, R + y1);
-            lateral.push(R + x1, x + y1);
-            lateral.push(-x + x1, -R + y1);
-            lateral.push(-R + x1, -x + y1);
-            for(; x <= y ;){
-                if (p < 0){
-                    x++; 
-                    // console.log(x,' , ',y, 'case A, p = ',p);
-                    p = p + (2 * x) + 1;
-
-                    lateral.push( x + x1, y + y1 );
-                    lateral.push( y + x1, x + y1 );
-
-                    lateral.push( x + x1, y1 - y );
-                    lateral.push( x1 + y, y1 - x );
-
-                    lateral.push( -x + x1, y + y1 );
-                    lateral.push( -y + x1, x + y1 );
-
-                    lateral.push( -x + x1, y1 - y );
-                    lateral.push( x1 - y, y1 - x );
-                    
-                } 
-                else {
-                    x++;
-                    y--; 
-                    // console.log(x,' , ',y, ' case B, p = ',p);
-                    p = p + (2 * x) + 1 - (2 * y);
-
-                    // lateral.push(x,y);
-
-                    lateral.push( x + x1, y + y1 ); 
-                    lateral.push( y + x1, x + y1 );
-
-                    lateral.push( x + x1, y1 - y );
-                    lateral.push( x1 + y, y1 - x );
-                    
-                    lateral.push( -x + x1, y + y1 );
-                    lateral.push( -y + x1, x + y1 );
-
-                    lateral.push( -x + x1, y1 - y );
-                    lateral.push( x1 - y, y1 - x );
-                }
-                
+        function ChecVertices(x1,y1,rx,ry,lateral,Tabla){
+            let Chec1 = -1, Chec2 = 1;
+            let p = ( Math.pow(ry, 2) ) - ( Math.pow(rx, 2) * ry) + ( 0.25 * Math.pow(rx, 2) );
+            let x = 0, y = ry ; 
+            console.log('wacha: ',p, ' x: ',rx,' y: ',ry);
+            lateral.push(x + x1, ry + y1);
+            // lateral.push(R + x1, x + y1);
+            lateral.push(-x + x1, -ry + y1);
+            // lateral.push(-R + x1, -x + y1);
+            for(; ;)
+            {
                 const fila = Tabla.insertRow(); 
                 const celdaP = fila.insertCell(0);
                 celdaP.textContent = '' + parseFloat(p).toFixed(2); 
+
+                if (p < 0){
+                    x++;
+                    p = p + ( 2 * Math.pow(ry, 2) * x ) + Math.pow(ry, 2);                    
+                } 
+                else {
+                    x++;
+                    y--;
+                    p = p + ( 2 * Math.pow(ry, 2) * x ) - ( 2 * Math.pow(rx, 2) * y ) + Math.pow(ry, 2);
+                }
+
                 const celdaX = fila.insertCell(1);
                 celdaX.textContent = '' + parseFloat(x).toFixed(2); 
                 const celdaY = fila.insertCell(2);
                 celdaY.textContent = '' + parseFloat(y).toFixed(2);
-                // console.log(x, y);
-                if ( x == 500 || y == 500 )
+
+                lateral.push( x + x1, y + y1 ); 
+                // lateral.push( y + x1, x + y1 );
+                lateral.push( x + x1, y1 - y );
+                // lateral.push( x1 + y, y1 - x );
+
+                lateral.push( -x + x1, y + y1 );
+                // lateral.push( -y + x1, x + y1 );
+                lateral.push( -x + x1, y1 - y );
+                // lateral.push( x1 - y, y1 - x ); 
+
+                Chec1 = ( 2 * Math.pow(ry, 2) * x );
+                Chec2 = ( 2 * Math.pow(rx, 2) * y );
+                console.log(Chec1, ' >= ', Chec2);
+                
+                if ( x == 500 || y == 500  || Chec1 >= Chec2)
                 {
                     break
                 }
             }
 
-            console.log('Chec',lateral.length);
+            let num1 = x + 0.5, num2 = y - 1;
 
-            // let first = lateral.length;
+            p = ( Math.pow(ry,2) * Math.pow(num1,2) ) + ( Math.pow(rx,2) * Math.pow(num2,2) ) - ( Math.pow(rx,2) * Math.pow(ry,2) );
+            console.log('p2: ',p, ' x: ',x, ' y: ',y);
             
-            // for(let i = lateral.length - 3 ; i >= 0 ; i--){
-            //     // console.log(vertices[i]);
-            //     lateral.push(lateral[i]);
-            // }
+            for (; !((y <= 0) && (x == rx));)
+            { 
+                fila = Tabla.insertRow(); 
+                celdaP = fila.insertCell(0);
+                celdaP.textContent = '' + parseFloat(p).toFixed(2); 
 
-            // for(let i = lateral.length - 1 ; i >= 0 ;){
-            //     // console.log(vertices[i]);
-            //     lateral.push(lateral[i]);
-            //     lateral.push(-lateral[i - 1]);
+                if ( p > 0 ) {
+                    y--;
+                    p = p - ( 2 * Math.pow(rx,2) * y) + Math.pow(rx,2); 
+                } else {
+                    x++;
+                    y--;
+                    p = p + ( 2 * Math.pow(ry,2) * x) - ( 2 * Math.pow(rx,2) * y) + Math.pow(rx,2); 
 
-            //     i -= 2;
-            // }
+                }
+                console.log('p2: ',p);
 
-            // for(let i = 0 ; i < (first * 2) ;){
-            //     // console.log(-lateral[i]);
-            //     // console.log(lateral[i+1]);
+                celdaX = fila.insertCell(1);
+                celdaX.textContent = '' + parseFloat(x).toFixed(2); 
+                celdaY = fila.insertCell(2);
+                celdaY.textContent = '' + parseFloat(y).toFixed(2);
 
-            //     lateral.push(-lateral[i]);
-            //     lateral.push(lateral[i + 1]);
+                lateral.push( x + x1, y + y1 ); 
+                // lateral.push( y + x1, x + y1 ); 
+                lateral.push( x + x1, y1 - y );
+                // lateral.push( x1 + y, y1 - x );
+                
+                lateral.push( -x + x1, y + y1 );
+                // lateral.push( -y + x1, x + y1 ); 
+                lateral.push( -x + x1, y1 - y );
+                // lateral.push( x1 - y, y1 - x );
+            }
+
+            console.log('Chec',lateral.length);
  
-            //     lateral.push(-lateral[i]);
-            //     lateral.push(-lateral[i + 1]);
-
-            //     i += 2;
-            // }
-
             console.log(lateral);
             return lateral;
         }
@@ -531,8 +549,8 @@
                 tabla2.innerHTML = '';
             }
 
-            // x1 = Chec_x1;
-            // y1 = Chec_y1;
+            x1 = Chec_x1;
+            y1 = Chec_y1;
 
             //  inicio 
             let dis = 0.1;
@@ -540,10 +558,10 @@
             const lateral = [];            
 
 
-            if ((x2 != null) 
+            if ((rx != null) 
             // || (y1 != null)
             ){
-                ChecVertices(x1,y1,x2,lateral,tabla1);
+                ChecVertices(x1,y1,rx,ry,lateral,tabla1);
                 Tabla(lateral, tabla2);
             }
 
@@ -638,7 +656,6 @@
             var section = document.getElementById('loading');
 
             section.style.display = 'none';
-            // 'none'; 
 
             const vertices = [
                 -R, 400,
@@ -845,7 +862,6 @@
                 600,    0,
 
                 -600,   0,
-
             ];
 
             if (!gl) {
